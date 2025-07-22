@@ -1,0 +1,21 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [master]  # or 'main' if that's your default branch
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: netlify deploy --dir=. --prod --site=$NETLIFY_SITE_ID --auth=$NETLIFY
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
